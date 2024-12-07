@@ -3,78 +3,91 @@ import { supabase } from '../../shared/supabaseClient';
 import { useEffect, useState } from 'react';
 
 
+interface Place {
+  id: number;
+  title: string;
+  location: string;
+  created_at: string;
+  updated_at: string;
+}
+
 function PlaceMap() {
-  const [data, setData] = useState(new Array<Object>());
+  const [data, setData] = useState<Place[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await supabase.from('places').select();
-      console.log(data);
-      if (data) {
-        setData(data);
+      const { data, error } = await supabase.from('places').select();
+      if (error) {
+        console.error('Ошибка загрузки данных', error);
+      } else {
+        console.log(data);
+        setData(data || []);
       }
     };
     fetchData();
   }, []);
 
+  // Функция добавления нового места
   async function getPlacesWithLocation() {
-    const titleInput: any =  document.getElementById('newTitle');
-    const locationInput: any = document.getElementById('newLocation');
+    const titleInput = document.getElementById('newTitle') as HTMLInputElement;
+    const locationInput = document.getElementById('newLocation') as HTMLInputElement;
     if (titleInput && locationInput) {
-      console.log(locationInput.value)
-      if (titleInput.value.trim() === '') {
+      const title = titleInput.value.trim();
+      const location = locationInput.value.trim();
+
+      if (!title) {
         alert('Введите новое название!');
-      } else if (locationInput.value.trim() === '') {
+      } else if (!location) {
         alert('Введите новое местоположение!');
       } else {
-        const {error} = await supabase.from('places').insert({title: titleInput.value, location: `POINT(${locationInput.value})`});
-        
+        const { error } = await supabase
+          .from('places')
+          .insert({ title: title, location: `POINT(${location})` });
+
         if (!error) {
-          const {data} = await supabase.rpc('get_places_with_location');
-          data?.map(async (el: any) => {
-            el.location = el.location.slice(6, -1);
-          })
-          if (data) {
-            setData(data);
+          const { data, error } = await supabase.rpc('get_places_with_location');
+          if (error) {
+            console.error('Ошибка вызова RPC', error);
+          } else {
+            // Обработка данных, если необходимо (например, парсинг location)
+            data?.map((el: Place) => {
+              el.location = el.location.slice(6, -1); // Убираем "POINT()" вокруг координат
+            });
+            setData(data || []);
           }
         }
       }
     }
   }
 
-
+  // Удаление места
   async function handleDelete(id: number) {
     const { error } = await supabase.from('places').delete().eq('id', id);
     if (!error) {
       const { data } = await supabase.from('places').select();
-      if (data) {
-        setData(data);
-      }
+      setData(data || []);
     }
   }
 
+  // Изменение названия места
   async function handleChange(id: number, newTitle: string) {
     const { error } = await supabase.from('places').update({ title: newTitle }).eq('id', id);
-    if (!error){
+    if (!error) {
       const { data } = await supabase.from('places').select();
-      if (data){
-        setData(data);
-      }
+      setData(data || []);
     }
-    
   }
 
-
+  // Столбцы для таблицы
   const columns = [
     {
       title: 'Название места',
       dataIndex: 'title',
     },
     {
-      title: "Координаты",
-      dataIndex: "location",
+      title: 'Координаты',
+      dataIndex: 'location',
     },
-
     {
       title: 'Время создания',
       dataIndex: 'created_at',
@@ -83,57 +96,76 @@ function PlaceMap() {
       title: 'Время последнего изменения',
       dataIndex: 'updated_at',
     },
-
     {
-      title: "Удалить место",
-      dataindex: '',
-      render: (record: {id: number}) => (
-        data.length >= 1 ? (
-          <a onClick={() => handleDelete(record.id)}>Удалить</a>
-        ) : null
-      )
+      title: 'Удалить место',
+      render: (record: Place) => (
+        <a onClick={() => handleDelete(record.id)}>Удалить</a>
+      ),
     },
     {
-      title: "Изменить место",
-      dataindex: '',
-      render: (text: string, record: {id: number}) => (
-        data.length >= 1 ? (
-          <a onClick={() => {const newTitle = prompt ("Введите новое название", text);
-            if (newTitle){
+      title: 'Изменить место',
+      render: (text: string, record: Place) => (
+        <a
+          onClick={() => {
+            const newTitle = prompt('Введите новое название', text);
+            if (newTitle) {
               handleChange(record.id, newTitle);
             }
-
-          }
-        }
-          >
-          Редактировать существующee место
-          </a>
-        ) : null
-      )
-    }
-
+          }}
+        >
+          Редактировать существующее место
+        </a>
+      ),
+    },
   ];
+
   return (
     <>
-    <div>
+      <div>
         <iframe
           width="100%"
           height="200px"
           src="https://yandex.ru/map-widget/v1/-/CBucU6V~8B"
         ></iframe>
       </div>
-      <input style={{padding: '0.5rem', borderRadius: '6px', outline: 'none', border: '1px gray solid', margin: '1rem', boxShadow: '4px 4px 10px gray' }} id = 'newTitle' type = 'text' placeholder='Название места' />
-      <input style={{padding: '0.5rem', borderRadius: '6px', outline: 'none', border: '1px gray solid', margin: '1rem', boxShadow: '4px 4px 10px gray' }} id = 'newLocation' type = 'text' placeholder='Координаты (89.56 89.34)' />
-      <Button onClick={getPlacesWithLocation} type='primary'>
-      Добавить новое место
+      <input
+        style={{
+          padding: '0.5rem',
+          borderRadius: '6px',
+          outline: 'none',
+          border: '1px gray solid',
+          margin: '1rem',
+          boxShadow: '4px 4px 10px gray',
+        }}
+        id="newTitle"
+        type="text"
+        placeholder="Название места"
+      />
+      <input
+        style={{
+          padding: '0.5rem',
+          borderRadius: '6px',
+          outline: 'none',
+          border: '1px gray solid',
+          margin: '1rem',
+          boxShadow: '4px 4px 10px gray',
+        }}
+        id="newLocation"
+        type="text"
+        placeholder="Координаты (89.56 89.34)"
+      />
+      <Button onClick={getPlacesWithLocation} type="primary">
+        Добавить новое место
       </Button>
 
-    
-      <Table pagination={false} columns={columns} rowKey = "id" />
+      <Table pagination={false} dataSource={data} columns={columns} rowKey="id" />
     </>
   );
 }
 
-
-  
 export default PlaceMap;
+
+
+
+
+
