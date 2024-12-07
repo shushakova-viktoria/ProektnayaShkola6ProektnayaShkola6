@@ -1,6 +1,6 @@
 import { supabase } from "../../shared/supabaseClient";
 import { useEffect, useState } from 'react';
-import { Button, Select, Table } from 'antd';
+import { Button, Table } from 'antd';
 
 
 
@@ -78,7 +78,7 @@ function UsersList() {
         {
             title: "Удалить пользователя",
             dataindex: '',
-            render: (text: string, record: {id: number}) => (
+            render: (record: {id: number}) => (
               data.length >= 1 ? (
                 <a onClick={() => deleteUser(record.id)}>Удалить</a>
               ) : null

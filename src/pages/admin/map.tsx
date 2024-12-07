@@ -1,14 +1,10 @@
 import { Button, Table } from 'antd';
 import { supabase } from '../../shared/supabaseClient';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 
 function PlaceMap() {
   const [data, setData] = useState(new Array<Object>());
-  const [name, setName] = useState('')
-  const [latitude, setLatitude] = useState<number>(0);
-  const [longtitude, setLongtitude] = useState<number>(0);
-  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -133,7 +129,7 @@ function PlaceMap() {
       </Button>
 
     
-      <Table pagination={false} dataSource={data} columns={columns} rowKey = "id" />
+      <Table pagination={false} columns={columns} rowKey = "id" />
     </>
   );
 }

@@ -22,7 +22,7 @@ function TopicsList() {
   async function handleAdd() {
     const newTitle =  document.getElementById('newTitle');
     if (newTitle) {
-      const {error} = await supabase.from('topics').insert({title: newTitle.value});
+      const {error} = await supabase.from('topics').insert({title: newTitle});
       if (!error) {
         const {data} = await supabase.from('topics').select();
         if (data) {
@@ -72,7 +72,7 @@ function TopicsList() {
     {
       title: "Удалить интерес",
       dataindex: '',
-      render: (text: string, record: {id: number}) => (
+      render: (record: {id: number}) => (
         data.length >= 1 ? (
           <a onClick={() => handleDelete(record.id)}>Удалить</a>
         ) : null
@@ -105,7 +105,7 @@ function TopicsList() {
       Добавить интерес
       </Button>
 
-      <Table pagination={false} dataSource={data} columns={columns} rowKey = "id" />
+      <Table pagination={false} columns={columns} rowKey = "id" />
     </>
   );
 }

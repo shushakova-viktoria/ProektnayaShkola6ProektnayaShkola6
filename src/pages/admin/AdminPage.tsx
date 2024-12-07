@@ -14,7 +14,6 @@ import UsersList from './usersInfo';
 
 
 const AdminPage: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(false);
   const [selectedMenuItemKey, setSelectedMenuItemKey] = useState('1');
 
   
