@@ -105,7 +105,7 @@ function TopicsList() {
       Добавить интерес
       </Button>
 
-      <Table pagination={false} columns={columns} rowKey = "id" />
+      <Table pagination={false} dataSource = {data} columns={columns} rowKey = "id" />
     </>
   );
 }
