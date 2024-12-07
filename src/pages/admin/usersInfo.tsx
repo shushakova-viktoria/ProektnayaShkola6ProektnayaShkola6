@@ -22,11 +22,13 @@ function UsersList() {
     async function addUser() {
         const newName: any =  document.getElementById('newFirstName');
         const newSurname: any =  document.getElementById('newLastName');
-        if (newName && newSurname && newName.value && newSurname.value) {
+        const newAge: any = document.getElementById('newAge');
+        if (newName && newSurname && newAge && newName.value && newSurname.value && newAge.value) {
             try {
               const { error } = await supabase.from('users').insert({
                 first_name: newName.value,
-                last_name: newSurname.value
+                last_name: newSurname.value,
+                age: newAge.value,
               });
               if (!error) {
                 const { data } = await supabase.from('users').select();
@@ -70,6 +72,11 @@ function UsersList() {
           title: 'Дата создания аккаунта',
           dataIndex: 'created_at',
         },
+        {
+          title: 'Возраст',
+          dataIndex: 'age',
+
+        },
 
         {
             title: 'Время последнего изменения',
@@ -90,6 +97,7 @@ function UsersList() {
         <>
     <input style={{padding: '0.5rem', borderRadius: '6px', outline: 'none', border: '1px gray solid', margin: '1rem', boxShadow: '4px 4px 10px gray' }} id = 'newFirstName' type = 'text' placeholder='Имя' />
       <input style={{padding: '0.5rem', borderRadius: '6px', outline: 'none', border: '1px gray solid', margin: '1rem', boxShadow: '4px 4px 10px gray' }} id = 'newLastName' type = 'text' placeholder='Фамилия' />
+      <input style={{padding: '0.5rem', borderRadius: '6px', outline: 'none', border: '1px gray solid', margin: '1rem', boxShadow: '4px 4px 10px gray' }} id = 'newAge' type = 'text' placeholder='Возраст' />
       <Button onClick={addUser} type='primary'>
       Добавить нового пользователя
       </Button>
