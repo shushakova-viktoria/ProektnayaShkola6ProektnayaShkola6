@@ -9,8 +9,10 @@ import {
   CustomerServiceOutlined,
   EnvironmentOutlined,
   UserOutlined,
+  FieldTimeOutlined,
 } from '@ant-design/icons';
 import UsersList from './usersInfo';
+import TimeList from './time';
 
 
 const AdminPage: React.FC = () => {
@@ -31,6 +33,9 @@ const AdminPage: React.FC = () => {
     }
     else if (selectedMenuItemKey == '3'){
       return <UsersList/>;
+    }
+    else if (selectedMenuItemKey == '4'){
+      return <TimeList/>;
     }
     
   }
@@ -81,6 +86,14 @@ const AdminPage: React.FC = () => {
               label: 'Пользователи',
               icon: <UserOutlined />,
               onClick:() => setSelectedMenuItemKey('3'),
+            },
+
+            {
+              key: '4',
+              label: 'Время',
+              icon: <FieldTimeOutlined />,
+              onClick:() => setSelectedMenuItemKey('4'),
+
             },
           ]}
           
