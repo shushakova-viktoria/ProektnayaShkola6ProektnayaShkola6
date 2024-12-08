@@ -32,10 +32,10 @@ const AdminPage: React.FC = () => {
       return <PlaceMap/>;
     }
     else if (selectedMenuItemKey == '3'){
-      return <UsersList/>;
+      return <TimeList/>;
     }
     else if (selectedMenuItemKey == '4'){
-      return <TimeList/>;
+      return <UsersList/>;
     }
     
   }
