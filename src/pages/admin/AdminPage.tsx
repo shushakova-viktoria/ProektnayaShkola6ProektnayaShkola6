@@ -83,17 +83,16 @@ const AdminPage: React.FC = () => {
             },
             {
               key: '3',
-              label: 'Пользователи',
-              icon: <UserOutlined />,
-              onClick:() => setSelectedMenuItemKey('3'),
-            },
-
-            {
-              key: '4',
               label: 'Время',
               icon: <FieldTimeOutlined />,
-              onClick:() => setSelectedMenuItemKey('4'),
+              onClick:() => setSelectedMenuItemKey('3'),
 
+            },
+            {
+              key: '4',
+              label: 'Пользователи',
+              icon: <UserOutlined />,
+              onClick:() => setSelectedMenuItemKey('4'),
             },
           ]}
           
