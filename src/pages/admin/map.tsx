@@ -18,7 +18,7 @@ function PlaceMap() {
     const fetchData = async () => {
       const { data, error } = await supabase.from('places').select();
       if (error) {
-        console.error('Ошибка загрузки данных', error);
+        console.error('Error loading data', error);
       } else {
         console.log(data);
         setData(data || []);
@@ -36,9 +36,9 @@ function PlaceMap() {
       const location = locationInput.value.trim();
 
       if (!title) {
-        alert('Введите новое название!');
+        alert('Enter a new name');
       } else if (!location) {
-        alert('Введите новое местоположение!');
+        alert('Enter a new location');
       } else {
         const { error } = await supabase
           .from('places')
@@ -47,7 +47,7 @@ function PlaceMap() {
         if (!error) {
           const { data, error } = await supabase.rpc('get_places_with_location');
           if (error) {
-            console.error('Ошибка вызова RPC', error);
+            console.error('RPC call failed', error);
           } else {
             // Обработка данных, если необходимо (например, парсинг location)
             data?.map((el: Place) => {
@@ -81,39 +81,39 @@ function PlaceMap() {
   // Столбцы для таблицы
   const columns = [
     {
-      title: 'Название места',
+      title: 'Place name',
       dataIndex: 'title',
     },
     {
-      title: 'Координаты',
+      title: 'Coordinates',
       dataIndex: 'location',
     },
     {
-      title: 'Время создания',
+      title: 'Creation time',
       dataIndex: 'created_at',
     },
     {
-      title: 'Время последнего изменения',
+      title: 'Last modified time',
       dataIndex: 'updated_at',
     },
     {
-      title: 'Удалить место',
+      title: 'Delete place',
       render: (record: Place) => (
-        <a onClick={() => handleDelete(record.id)}>Удалить</a>
+        <a onClick={() => handleDelete(record.id)}>Delete</a>
       ),
     },
     {
-      title: 'Изменить место',
+      title: 'Change location',
       render: (text: string, record: Place) => (
         <a
           onClick={() => {
-            const newTitle = prompt('Введите новое название', text);
+            const newTitle = prompt('Enter a new name', text);
             if (newTitle) {
               handleChange(record.id, newTitle);
             }
           }}
         >
-          Редактировать существующее место
+          Edit an existing place
         </a>
       ),
     },
@@ -139,7 +139,7 @@ function PlaceMap() {
         }}
         id="newTitle"
         type="text"
-        placeholder="Название места"
+        placeholder="Place name"
       />
       <input
         style={{
@@ -152,10 +152,10 @@ function PlaceMap() {
         }}
         id="newLocation"
         type="text"
-        placeholder="Координаты (89.56 89.34)"
+        placeholder="Coordinates (89.56 89.34)"
       />
       <Button onClick={getPlacesWithLocation} type="primary">
-        Добавить новое место
+      Add a new location
       </Button>
 
       <Table pagination={false} dataSource={data} columns={columns} rowKey="id" />

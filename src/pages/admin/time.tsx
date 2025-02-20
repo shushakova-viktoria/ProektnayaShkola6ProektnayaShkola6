@@ -47,28 +47,28 @@ async function timeAdd() {
 
   const columns = [
     {
-      title: 'Удобное время',
+      title: 'Convenient time',
       dataIndex: 'time',
     },
     {
-      title: 'Время создания',
+      title: 'Creation time',
       dataIndex: 'created_at',
     },
     {
-      title: 'Удалить время',
+      title: 'Delete time',
       dataIndex: '',
       render: (record: { id: number }) => (
         data.length >= 1 ? (
-          <a onClick={() => timeDelete(record.id)}>Удалить</a>
+          <a onClick={() => timeDelete(record.id)}>Delete</a>
         ) : null
       ),
     },
   ];
   return(
     <>
-    <input style={{padding: '0.5rem', borderRadius: '6px', outline: 'none', border: '1px gray solid', margin: '1rem', boxShadow: '4px 4px 10px gray' }} id = 'newTime' type = 'text' placeholder='Время' />
+    <input style={{padding: '0.5rem', borderRadius: '6px', outline: 'none', border: '1px gray solid', margin: '1rem', boxShadow: '4px 4px 10px gray' }} id = 'newTime' type = 'text' placeholder='Time' />
     <Button onClick={timeAdd} type='primary'>
-      Добавить время
+    Add time
       </Button>
     
     <Table pagination={false} dataSource={data} columns={columns} rowKey = "id"/>

@@ -36,13 +36,13 @@ function UsersList() {
                   setData(data);  
                 }
               } else {
-                console.error('Ошибка при добавлении пользователя:', error);
+                console.error('Error adding user:', error);
               }
             } catch (error) {
-              console.error('Произошла ошибка при запросе к Supabase:', error);
+              console.error('An error occurred while querying Supabase:', error);
             }
           } else {
-            console.error('Пожалуйста, заполните все поля.');
+            console.error('Please, fill out all fields!');
           }
         }
 
@@ -60,34 +60,34 @@ function UsersList() {
 
     const columns = [
         {
-          title: "Имя",
+          title: "Name",
           dataIndex: "first_name",
         },
     
         {
-          title: 'Фамилия',
+          title: 'Surname',
           dataIndex: 'last_name',
         },
         {
-          title: 'Дата создания аккаунта',
+          title: 'Account creation date',
           dataIndex: 'created_at',
         },
         {
-          title: 'Возраст',
+          title: 'Age',
           dataIndex: 'age',
 
         },
 
         {
-            title: 'Время последнего изменения',
+            title: 'Last modified time',
             dataIndex: 'updated_at',
         },
         {
-            title: "Удалить пользователя",
+            title: "Delete user",
             dataindex: '',
             render: (record: {id: number}) => (
               data.length >= 1 ? (
-                <a onClick={() => deleteUser(record.id)}>Удалить</a>
+                <a onClick={() => deleteUser(record.id)}>Delete</a>
               ) : null
             )
         },
@@ -95,11 +95,12 @@ function UsersList() {
 
     return (
         <>
-    <input style={{padding: '0.5rem', borderRadius: '6px', outline: 'none', border: '1px gray solid', margin: '1rem', boxShadow: '4px 4px 10px gray' }} id = 'newFirstName' type = 'text' placeholder='Имя' />
-      <input style={{padding: '0.5rem', borderRadius: '6px', outline: 'none', border: '1px gray solid', margin: '1rem', boxShadow: '4px 4px 10px gray' }} id = 'newLastName' type = 'text' placeholder='Фамилия' />
-      <input style={{padding: '0.5rem', borderRadius: '6px', outline: 'none', border: '1px gray solid', margin: '1rem', boxShadow: '4px 4px 10px gray' }} id = 'newAge' type = 'text' placeholder='Возраст' />
+    <input style={{padding: '0.5rem', borderRadius: '6px', outline: 'none', border: '1px gray solid', margin: '1rem', boxShadow: '4px 4px 10px gray' }} id = 'newFirstName' type = 'text' placeholder='Name' />
+      <input style={{padding: '0.5rem', borderRadius: '6px', outline: 'none', border: '1px gray solid', margin: '1rem', boxShadow: '4px 4px 10px gray' }} id = 'newLastName' type = 'text' placeholder='Surname' />
+      <input style={{padding: '0.5rem', borderRadius: '6px', outline: 'none', border: '1px gray solid', margin: '1rem', boxShadow: '4px 4px 10px gray' }} id = 'newAge' type = 'text' placeholder='Age' />
       <Button onClick={addUser} type='primary'>
-      Добавить нового пользователя
+      
+      Add a new user
       </Button>
 
         <Table pagination={false} dataSource={data} columns={columns} rowKey = "id"/>

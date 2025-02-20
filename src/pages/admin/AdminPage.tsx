@@ -71,26 +71,26 @@ const AdminPage: React.FC = () => {
           items={[
             {
               key: '1',
-              label: 'Интересы',
+              label: 'Interests',
               icon: <CustomerServiceOutlined/>,
               onClick:() => setSelectedMenuItemKey('1'),
             },
             {
               key: '2',
-              label: 'Любимые места',
+              label: 'Favorite places',
               icon: <EnvironmentOutlined />,
               onClick:() => setSelectedMenuItemKey('2'),
             },
             {
               key: '3',
-              label: 'Время',
+              label: 'Time',
               icon: <FieldTimeOutlined />,
               onClick:() => setSelectedMenuItemKey('3'),
 
             },
             {
               key: '4',
-              label: 'Пользователи',
+              label: 'Users',
               icon: <UserOutlined />,
               onClick:() => setSelectedMenuItemKey('4'),
             },
@@ -114,11 +114,11 @@ const AdminPage: React.FC = () => {
           <header style = {{left: '1000px', margin: '24px 16px', padding: 0, color: "gray"}}>
             Random Coffee Administration
           </header>
-            <Button onClick={() => window.open('https://vk.com/shamanka_010')}>
-              Сайт разработчика
+            <Button onClick={() => window.open('https://vk.com/anastasilee8')}>
+            Developer's website
             </Button>
             <Button type="primary" color="danger" onClick={() => logout()}>
-              Выйти
+            Log out
             </Button>
             
           </div>
@@ -135,7 +135,7 @@ const AdminPage: React.FC = () => {
           {renderContent()}
         </Content>
         <Footer style={{ textAlign: 'center' }}>
-           ©{new Date().getFullYear()} Created by PMiFi group 3
+           ©{new Date().getFullYear()} 
           </Footer>
       </Layout>
     </Layout>

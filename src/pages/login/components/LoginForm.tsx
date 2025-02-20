@@ -32,7 +32,7 @@ function LoginForm() {
     });
     console.log(error);
     if (error) {
-      alert('Неверный логин или пароль!');
+      alert('Invalid login or password!');
     } else {
       navigate('/');
     }
@@ -51,17 +51,17 @@ function LoginForm() {
       onFinish={onFinish}
     >
       <Form.Item<FieldType>
-        label="Электронная почта"
+        label="Email"
         name="email"
-        rules={[{ required: true, message: 'Введите Email' }]}
+        rules={[{ required: true, message: 'Enter your email address' }]}
       >
         <Input />
       </Form.Item>
 
       <Form.Item<FieldType>
-        label="Пароль"
+        label="Password"
         name="password"
-        rules={[{ required: true, message: 'Введите пароль' }]}
+        rules={[{ required: true, message: 'Enter your password' }]}
       >
         <Input.Password />
       </Form.Item>
@@ -75,10 +75,10 @@ function LoginForm() {
           }}
         >
           <Button style={{ width: '50%' }} type="primary" htmlType="submit">
-            Войти
+            Login
           </Button>
           <Button style={{ width: '50%' }} type="primary">
-            Сброс пароля
+          Password reset
           </Button>
         </div>
       </Form.Item>

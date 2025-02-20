@@ -58,38 +58,38 @@ function TopicsList() {
 
   const columns = [
     {
-      title: 'Название интереса',
+      title: 'Interest name',
       dataIndex: 'title',
     },
     {
-      title: 'Время создания',
+      title: 'Creation time',
       dataIndex: 'created_at',
     },
     {
-      title: 'Время последнего изменения',
+      title: 'Last modified time',
       dataIndex: 'updated_at',
     },
     {
-      title: 'Удалить интерес',
+      title: 'Remove interest',
       dataIndex: '',
       render: (record: { id: number }) => (
         data.length >= 1 ? (
-          <a onClick={() => handleDelete(record.id)}>Удалить</a>
+          <a onClick={() => handleDelete(record.id)}>Remove</a>
         ) : null
       ),
     },
     {
-      title: 'Изменить интерес',
+      title: 'Change interest',
       dataIndex: '',
       render: (text: string, record: { id: number }) => (
         data.length >= 1 ? (
           <a onClick={() => {
-            const newTitle = prompt('Введите новое название', text);
+            const newTitle = prompt('Change interest', text);
             if (newTitle) {
               handleChange(record.id, newTitle);
             }
           }}>
-            Редактировать существующий интерес
+            Edit an existing interest
           </a>
         ) : null
       ),
@@ -109,10 +109,10 @@ function TopicsList() {
         }}
         id="newTitle"
         type="text"
-        placeholder="Название интереса"
+        placeholder="Interest name"
       />
       <Button onClick={handleAdd} type="primary">
-        Добавить интерес
+        Add interest
       </Button>
 
       <Table pagination={false} dataSource={data} columns={columns} rowKey="id" />
